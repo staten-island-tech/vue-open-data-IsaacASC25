@@ -1,6 +1,6 @@
 <template> 
     <div>
-      <CommisionCard v-for =
+      <CommisionCard v-for = "(home,index) in homeless" :key="home.name" :civics = "civic" :id = "index + 1"/>
     </div>
 </template>
 
