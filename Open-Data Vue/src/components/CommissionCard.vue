@@ -1,6 +1,9 @@
 <template>
   <div class="card">
-    <h3>{{ id }}</h3>
+    <h3>District Name: {{ civics.community_district_name }}</h3>
+    <p>Borough: {{ civics.borough }}</p>
+    <p>Language: {{ civics.language }}</p>
+    <p>LEP Population: {{ civics.lep_population_estimate }}</p>
   </div>
 </template>
 

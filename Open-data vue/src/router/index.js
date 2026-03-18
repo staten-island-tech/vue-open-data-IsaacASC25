@@ -6,8 +6,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: CommisionPage
-    }
+      component: CommisionPage,
+    },
   ],
 })
 

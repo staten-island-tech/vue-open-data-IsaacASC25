@@ -1,39 +1,25 @@
-<template> 
-    <div>
-      <CommisionCard v-for = "(home,index) in homeless" :key="home.name" :civics = "civic" :id = "index + 1"/>
-    </div>
+<template>
+  <div>
+    <CommissionCard v-for="(civic, index) in civics" :key="index" :civics="civic" :id="index + 1" />
+  </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
-import {useRoute} from 'vue'
-const route = useRoute()
-const civic = ref()
-async function getCivics() {
-  const url = "https://example.org/products.json";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
+import { onMounted, ref } from 'vue'
+import CommissionCard from '@/components/CommissionCard.vue'
 
-    const result = await response.json();
-    console.log(result);
-  } catch (error) {
-    console.error(error.message);
-  }
+const civics = ref([])
+
+async function getCivics() {
+  console.log('did i run?')
+  const response = await fetch('https://data.cityofnewyork.us/resource/ajin-gkbp.json')
+  const data = await response.json()
+  civics.value = data
 }
-watch(
-  () => route.params.id,
-  function () {
-    getCivics()
-  },
-)
+
 onMounted(function () {
-  getCivics(route.params.id)
+  getCivics()
 })
 </script>
 
-<style scoped>
-
-</style> 
+<style scoped></style>
