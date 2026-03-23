@@ -7,9 +7,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import CommissionCard from '@/components/CommissionCard.vue'
-
+import { Bar } from 'vue-chartjs'
 const civics = ref([])
-
 async function getCivics() {
   console.log('did i run?')
   const response = await fetch('https://data.cityofnewyork.us/resource/ajin-gkbp.json')
