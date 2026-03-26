@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CommisionPage from '@/views/CommisionPage.vue'
+import {LEPLanguages} from '../views/LEPLanguages.vue'
+import {LEPPopulation} from '../views/LEPPopulation.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: CommisionPage,
+      component: LEPLanguages,
+    },
+    {
+      path: '/LEPPopulation',
+      name: 'home',
+      component: LEPPopulation,
     },
   ],
 })
