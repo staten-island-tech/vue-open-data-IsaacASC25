@@ -1,19 +1,19 @@
 <template>
-  <div class="charts-wrapper">
+  <div class="page">
     <h1>NYC Limited English Proficiency Data (2015–2019)</h1>
+    <RouterLink to="/" class="nav-btn">View LEP Population by Borough</RouterLink>
     <div v-if="!loaded" class="loading">Loading data...</div>
-    <div v-if="loaded" class="charts-grid">
-    <div class="chart-container">
+    <div v-if="loaded" class="chart-box">
       <h2>Top 10 Languages by LEP Population</h2>
       <Bar :data="languageChartData" :options="chartOptions" />
     </div>
   </div>
-</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Bar } from 'vue-chartjs'
+import { RouterLink } from 'vue-router'
 import {
   Chart as ChartJS,
   Title,
@@ -27,7 +27,6 @@ import {
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const loaded = ref(false)
-const boroughChartData = ref(null)
 const languageChartData = ref(null)
 
 const chartOptions = {
@@ -85,40 +84,57 @@ onMounted(fetchData)
 </script>
 
 <style scoped>
-.charts-wrapper {
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 2rem;
   font-family: sans-serif;
 }
 
 h1 {
   font-size: 1.4rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: #333;
+  text-align: center;
 }
 
 h2 {
   font-size: 1rem;
   margin-bottom: 0.75rem;
   color: #555;
+  text-align: center;
+}
+
+.nav-btn {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1.25rem;
+  background-color: #4e79a7;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-btn:hover {
+  background-color: #3a5f85;
+}
+
+.chart-box {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  width: 100%;
+  max-width: 700px;
 }
 
 .loading {
   font-size: 1.1rem;
   color: #888;
   margin-top: 2rem;
-}
-
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-.chart-container {
-  background: #f9f9f9;
-  border-radius: 10px;
-  padding: 1.25rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  position: relative;
+  text-align: center;
 }
 </style>
