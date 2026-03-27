@@ -48,7 +48,6 @@ const chartOptions = {
 async function fetchData() {
   try {
     const response = await fetch(
-      'https://data.cityofnewyork.us/resource/ajin-gkbp.json?$limit=50000',
     )
     const data = await response.json()
 
@@ -67,7 +66,8 @@ async function fetchData() {
         {
           label: 'LEP Population',
           data: boroughsSorted.map(([, v]) => v),
-          backgroundColor: ['#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f'],
+          
+          backgroundColor: '#4e79a7',
           borderRadius: 6,
         },
       ],
@@ -118,6 +118,7 @@ h2 {
 
 .nav-btn:hover {
   background-color: #3a5f85;
+  transform: translateY(5px);
 }
 
 .chart-box {

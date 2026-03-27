@@ -120,6 +120,7 @@ h2 {
 
 .nav-btn:hover {
   background-color: #3a5f85;
+  transform: translateY(5px);
 }
 
 .chart-box {
