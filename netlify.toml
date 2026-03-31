@@ -1,4 +1,4 @@
 [build]
   base = "Open-Data Vue"
   command = "npm run build"
-  publish = "Open-Data Vue/dist"
+  publish = "dist"
