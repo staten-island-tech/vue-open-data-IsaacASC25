@@ -1,19 +1,30 @@
-<template>
+vue<template>
   <div class="page">
     <h1>NYC Limited English Proficiency Data (2015–2019)</h1>
-    <RouterLink to="/LEPPopulation" class="nav-btn">View LEP Languages by Borough</RouterLink>
+    <RouterLink to="/LEPPopulation" class="nav-btn">View LEP Languages by Top10</RouterLink>
     <div v-if="!loaded" class="loading">Loading data...</div>
     <div v-if="loaded" class="chart-box">
       <h2>LEP Population by Borough</h2>
       <Bar :data="boroughChartData" :options="chartOptions" />
     </div>
+    <div v-if="loaded" class="cards-section">
+      <h2>Sample Records</h2>
+      <CommissionCard
+        v-for="(row, index) in sampleRows"
+        :key="index"
+        :civics="row"
+        :id="index"
+      />
+    </div>
   </div>
+  <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Bar } from 'vue-chartjs'
 import { RouterLink } from 'vue-router'
+import CommissionCard from '../components/CommissionCard.vue'
 import {
   Chart as ChartJS,
   Title,
@@ -28,6 +39,8 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const loaded = ref(false)
 const boroughChartData = ref(null)
+const sampleRows = ref([])
+const errorMsg = ref('')
 
 const chartOptions = {
   responsive: true,
@@ -48,8 +61,11 @@ const chartOptions = {
 async function fetchData() {
   try {
     const response = await fetch(
+      'https://data.cityofnewyork.us/resource/ajin-gkbp.json?$limit=50000'
     )
     const data = await response.json()
+
+    sampleRows.value = data.slice(0, 5)
 
     const boroughTotals = {}
     for (const row of data) {
@@ -66,7 +82,6 @@ async function fetchData() {
         {
           label: 'LEP Population',
           data: boroughsSorted.map(([, v]) => v),
-          
           backgroundColor: '#4e79a7',
           borderRadius: 6,
         },
@@ -75,8 +90,8 @@ async function fetchData() {
 
     loaded.value = true
   } catch (error) {
-    console.error('Failed to fetch data:', error)
-  }
+  errorMsg.value = 'Failed to load data. Please try again.'
+}
 }
 onMounted(fetchData)
 </script>
@@ -127,6 +142,12 @@ h2 {
   padding: 1.25rem;
   width: 100%;
   max-width: 700px;
+}
+
+.cards-section {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 2rem;
 }
 
 .loading {

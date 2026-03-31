@@ -7,13 +7,24 @@
       <h2>Top 10 Languages by LEP Population</h2>
       <Bar :data="languageChartData" :options="chartOptions" />
     </div>
+    <div v-if="loaded" class="cards-section">
+      <h2>Sample Records</h2>
+      <CommissionCard
+        v-for="(row, index) in sampleRows"
+        :key="index"
+        :civics="row"
+        :id="index"
+      />
+    </div>
   </div>
+  <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Bar } from 'vue-chartjs'
 import { RouterLink } from 'vue-router'
+import CommissionCard from '../components/CommissionCard.vue'
 import {
   Chart as ChartJS,
   Title,
@@ -28,6 +39,8 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const loaded = ref(false)
 const languageChartData = ref(null)
+const sampleRows = ref([])
+const errorMsg = ref('')
 
 const chartOptions = {
   responsive: true,
@@ -51,6 +64,8 @@ async function fetchData() {
       'https://data.cityofnewyork.us/resource/ajin-gkbp.json?$limit=50000',
     )
     const data = await response.json()
+
+    sampleRows.value = data.slice(0, 5)
 
     const languageTotals = {}
     for (const row of data) {
@@ -77,8 +92,8 @@ async function fetchData() {
 
     loaded.value = true
   } catch (error) {
-    console.error('Failed to fetch data:', error)
-  }
+  errorMsg.value = 'Failed to load data. Please try again.'
+}
 }
 onMounted(fetchData)
 </script>
@@ -130,6 +145,12 @@ h2 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   width: 100%;
   max-width: 700px;
+}
+
+.cards-section {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 2rem;
 }
 
 .loading {
