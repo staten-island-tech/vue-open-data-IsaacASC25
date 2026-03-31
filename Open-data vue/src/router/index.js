@@ -7,7 +7,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'lepLanguages',
+      name: 'LEPLanguages',
       component: LEPLanguages,
     },
     {
